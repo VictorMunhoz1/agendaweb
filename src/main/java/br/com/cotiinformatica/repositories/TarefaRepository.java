@@ -111,8 +111,30 @@ public class TarefaRepository implements ITarefaRepository {
 
 	@Override
 	public Tarefa findById(Integer idTarefa) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		Connection connection = ConnectionFactory.getConnection();
+
+		PreparedStatement statement = connection.prepareStatement("select * from tarefa where idtarefa = ?");
+		statement.setInt(1, idTarefa);
+		ResultSet resultSet = statement.executeQuery();
+
+		Tarefa tarefa = null;
+
+		if (resultSet.next()) {
+
+			tarefa = new Tarefa();
+
+			tarefa.setIdTarefa(resultSet.getInt("idtarefa"));
+			tarefa.setNome(resultSet.getString("nome"));
+			tarefa.setData(DateHelper.formatToDate(resultSet.getString("data")));
+			tarefa.setHora(resultSet.getString("hora"));
+			tarefa.setPrioridade(resultSet.getInt("prioridade"));
+			tarefa.setDescricao(resultSet.getString("descricao"));
+			tarefa.setIdUsuario(resultSet.getInt("idusuario"));
+		}
+
+		connection.close();
+		return tarefa;
 	}
 
 }

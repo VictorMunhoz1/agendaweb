@@ -10,6 +10,8 @@ public interface IUsuarioRepository {
 
 	void update(Usuario usuario) throws Exception;
 
+	void update(Integer idUsuario, String senha) throws Exception;
+
 	void delete(Usuario usuario) throws Exception;
 
 	List<Usuario> findAll() throws Exception;
